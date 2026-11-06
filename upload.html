@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Import bank statement</h1>
+<p class="text-secondary">Choose a PDF or CSV from this device. Select each file yourself; the app does not read other phone files. No bank credentials are needed.</p>
+<div class="alert alert-info">The default dashboard shows the normal CSV dataset. PDF statements open in a separate analysis view; ATM debits are categorized as Withdrawal, APSRTC as Transport, Zerodha as Investing, and other debits under ₹50 as Groceries.</div>
+
+{% if mapping %}
+<div class="panel mb-3">
+  <h3>Preview · {{ rows_count }} rows · {{ filename }}</h3>
+  <div class="table-responsive"><table class="table table-sm"><thead><tr>{% for c in columns %}<th>{{ c }}</th>{% endfor %}</tr></thead><tbody>{% for row in preview %}<tr>{% for c in columns %}<td>{{ row[c] }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>
+</div>
+<form method="post" enctype="multipart/form-data" class="panel">
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+  <input type="hidden" name="confirm" value="yes">
+  <input type="hidden" name="filename" value="{{ filename }}">
+  <p class="text-secondary">Select the file again to confirm import. PDF extraction supports selectable text tables; scanned/image PDFs are not supported.</p>
+  {% if is_pdf %}<div class="alert alert-info">This PDF will be available as a separate analysis. The normal CSV dashboard stays as the default; after import, use the PDF analysis button to view the statement.</div>{% endif %}
+  <div class="mb-3"><label class="form-label">Statement file (CSV or PDF)</label><input class="form-control" name="file" type="file" accept=".csv,.pdf,application/pdf,text/csv" required></div>
+  <div class="mb-3"><label class="form-label" for="pdf_password">PDF opening password (only if this PDF is protected)</label><input class="form-control" id="pdf_password" name="pdf_password" type="password" autocomplete="off"><div class="form-text">Used only to read this upload and not saved. Never enter your banking password, UPI PIN, or OTP. For the confirmation step, enter the PDF password again if needed.</div></div>
+  <div class="row g-3">
+    {% for key in ['date','description','amount','type','debit','credit','currency','bank_name','account_label','category'] %}<div class="col-md-4"><label class="form-label">{{ key.replace('_',' ').title() }}</label><select class="form-select" name="map_{{ key }}"><option value="">(not mapped)</option>{% for c in columns %}<option value="{{ c }}" {{ 'selected' if mapping[key]==c }}>{{ c }}</option>{% endfor %}</select></div>{% endfor %}
+    <div class="col-md-4"><label class="form-label">Default bank (if no bank column)</label><input class="form-control" name="bank_default" value="SBI" maxlength="100"></div>
+    <div class="col-md-4"><label class="form-label">Default account label (optional)</label><input class="form-control" name="account_default" maxlength="100"></div>
+    <div class="col-md-4"><label class="form-label">Default currency</label><input class="form-control" name="currency_default" value="INR" maxlength="3"></div>
+    <div class="col-md-4"><label class="form-label">Date order</label><select class="form-select" name="date_order"><option value="dayfirst" selected>Day / Month / Year</option><option value="monthfirst">Month / Day / Year</option></select></div>
+  </div>
+  {% if not is_pdf %}<div class="form-check mt-3"><input class="form-check-input" type="checkbox" value="yes" id="replace_transactions" name="replace_transactions"><label class="form-check-label" for="replace_transactions">Replace existing CSV transactions with this file</label><div class="form-text">This affects transaction rows in the CSV dataset only; CIBIL and loan records are not affected.</div></div>{% endif %}
+  <button class="btn btn-primary mt-3">Validate and import</button>
+</form>
+{% else %}
+<form method="post" enctype="multipart/form-data" class="panel">
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+  <div class="mb-3"><label class="form-label" for="statement_file">Choose PDF or CSV</label><input id="statement_file" class="form-control" type="file" name="file" accept=".csv,.pdf,application/pdf,text/csv" required></div>
+  <div class="mb-3"><label class="form-label" for="pdf_password">PDF opening password (only if this PDF is protected)</label><input class="form-control" id="pdf_password" name="pdf_password" type="password" autocomplete="off"><div class="form-text">Used only to read this upload and not saved. Never enter your banking password, UPI PIN, or OTP.</div></div>
+  <button class="btn btn-primary mt-3">Preview columns and rows</button>
+</form>
+{% endif %}
+{% endblock %}

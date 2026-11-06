@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Import results</h1>
+<div class="row g-3 mb-4"><div class="col metric"><small>Accepted</small><strong>{{ accepted }}</strong></div><div class="col metric"><small>Duplicates skipped</small><strong>{{ duplicates }}</strong></div><div class="col metric"><small>Rejected</small><strong>{{ rejected|length }}</strong></div></div>
+{% if rejected %}<div class="panel"><h3>Rejected rows and reasons</h3><div class="table-responsive"><table class="table"><thead><tr><th>CSV row</th><th>Reason</th><th>Data</th></tr></thead><tbody>{% for r in rejected %}<tr><td>{{ r.row }}</td><td>{{ r.reason }}</td><td>{{ r.data }}</td></tr>{% endfor %}</tbody></table></div><a class="btn btn-outline-primary" href="{{ url_for('validation_report', import_id=import_id) }}">Download validation report</a></div>{% endif %}
+{% if dataset == 'pdf' %}<a class="btn btn-primary mt-3" href="{{ url_for('dashboard', dataset='pdf') }}">View PDF analysis</a><a class="btn btn-outline-primary mt-3 ms-2" href="{{ url_for('dashboard') }}">Return to default CSV</a><form method="post" action="{{ url_for('clear_pdf_data') }}" class="mt-3"><input type="hidden" name="_csrf_token" value="{{ csrf_token() }}"><button class="btn btn-outline-danger">Clear PDF data and return to default CSV</button></form>{% else %}<a class="btn btn-primary mt-3" href="{{ url_for('dashboard') }}">Open default CSV analysis</a>{% endif %}
+{% endblock %}

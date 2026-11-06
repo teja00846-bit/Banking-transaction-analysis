@@ -1,0 +1,82 @@
+<div id="credit-loans" class="mb-4">
+  <span class="eyebrow">PERSONAL CREDIT TRACKER</span>
+  <h1>CIBIL score &amp; loans</h1>
+  <p class="text-secondary mb-0">Record score updates and keep a dated history of loan balances and payments. Enter figures from your official statements.</p>
+</div>
+<div class="alert alert-info">Manual tracker only: Finance Khichidi does not connect to CIBIL, banks, or lenders, and does not fetch or verify scores.</div>
+
+<div class="row g-4 align-items-start">
+  <section class="col-lg-5">
+    <div class="panel mb-4">
+      <h2 class="mt-0">Add a CIBIL score update</h2>
+      <form method="post" action="{{ url_for('add_credit_score') }}">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3"><label class="form-label" for="score">Score (300–900)</label><input class="form-control" id="score" name="score" type="number" min="300" max="900" step="1" required></div>
+        <div class="row g-3"><div class="col-sm-6"><label class="form-label" for="recorded_on">Report date</label><input class="form-control" id="recorded_on" name="recorded_on" type="date" value="{{ today }}" required></div>
+        <div class="col-sm-6"><label class="form-label" for="source">Bureau/source</label><input class="form-control" id="source" name="source" value="CIBIL" maxlength="100"></div></div>
+        <div class="mt-3"><label class="form-label" for="score_notes">Note (optional)</label><input class="form-control" id="score_notes" name="notes" maxlength="500" placeholder="For example, report checked"></div>
+        <button class="btn btn-primary mt-3">Save score update</button>
+      </form>
+    </div>
+    <div class="panel">
+      <h2 class="mt-0">Score history</h2>
+      {% if scores %}<div class="table-responsive"><table class="table table-sm mb-0"><thead><tr><th>Date</th><th>Score</th><th>Source</th><th>Note</th></tr></thead><tbody>
+      {% for item in scores %}<tr><td>{{ item.recorded_on }}</td><td><strong>{{ item.score }}</strong></td><td>{{ item.source }}</td><td>{{ item.notes or '—' }}</td></tr>{% endfor %}
+      </tbody></table></div>{% else %}<div class="empty">No score updates recorded yet.</div>{% endif %}
+    </div>
+  </section>
+
+  <section class="col-lg-7">
+    <div class="panel mb-4">
+      <h2 class="mt-0">Add a loan</h2>
+      <form method="post" action="{{ url_for('add_loan') }}">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+        <div class="row g-3">
+          <div class="col-sm-6"><label class="form-label" for="lender">Lender</label><input class="form-control" id="lender" name="lender" maxlength="100" required placeholder="Bank or lender"></div>
+          <div class="col-sm-6"><label class="form-label" for="loan_type">Loan type</label><input class="form-control" id="loan_type" name="loan_type" maxlength="80" required placeholder="Home, personal, vehicle"></div>
+          <div class="col-sm-6"><label class="form-label" for="original_amount">Original amount</label><input class="form-control" id="original_amount" name="original_amount" type="number" min="0.01" step="0.01" required></div>
+          <div class="col-sm-6"><label class="form-label" for="currency">Currency</label><input class="form-control" id="currency" name="currency" value="INR" minlength="3" maxlength="3" required></div>
+          <div class="col-sm-6"><label class="form-label" for="outstanding_balance">Current outstanding balance</label><input class="form-control" id="outstanding_balance" name="outstanding_balance" type="number" min="0" step="0.01" required></div>
+          <div class="col-sm-6"><label class="form-label" for="emi_amount">Monthly EMI</label><input class="form-control" id="emi_amount" name="emi_amount" type="number" min="0" step="0.01" required></div>
+          <div class="col-sm-6"><label class="form-label" for="interest_rate">Annual interest rate (%)</label><input class="form-control" id="interest_rate" name="interest_rate" type="number" min="0" max="100" step="0.01"></div>
+          <div class="col-sm-6"><label class="form-label" for="next_due_date">Next EMI due date</label><input class="form-control" id="next_due_date" name="next_due_date" type="date"></div>
+          <div class="col-sm-6"><label class="form-label" for="loan_status">Status</label><select class="form-select" id="loan_status" name="status"><option>Active</option><option>Overdue</option><option>Paid</option><option>Closed</option></select></div>
+          <div class="col-sm-6"><label class="form-label" for="loan_updated_on">Update date</label><input class="form-control" id="loan_updated_on" name="updated_on" type="date" value="{{ today }}" required></div>
+          <div class="col-12"><label class="form-label" for="loan_note">Note (optional)</label><input class="form-control" id="loan_note" name="note" maxlength="500" placeholder="Payment, rate change, or statement note"></div>
+        </div>
+        <button class="btn btn-primary mt-3">Save loan</button>
+      </form>
+    </div>
+
+    <h2>Loans and current status</h2>
+    {% if loans %}
+      {% for loan in loans %}
+      <article class="panel mb-3">
+        <div class="d-flex justify-content-between flex-wrap gap-2"><div><h3 class="mb-1">{{ loan.lender }} · {{ loan.loan_type }}</h3><div class="text-secondary">Original {{ loan.currency }} {{ '%.2f'|format(loan.original_amount) }} · Status: <strong>{{ loan.status or 'No update' }}</strong></div></div>
+          {% if loan.outstanding_balance is not none %}<div class="text-end"><small class="text-secondary">Outstanding</small><div class="fs-5 fw-bold">{{ loan.currency }} {{ '%.2f'|format(loan.outstanding_balance) }}</div></div>{% endif %}</div>
+        {% if loan.outstanding_balance is not none %}<div class="small text-secondary mt-2">EMI: {{ loan.currency }} {{ '%.2f'|format(loan.emi_amount) }} · Rate: {{ ('%.2f'|format(loan.interest_rate) ~ '%') if loan.interest_rate is not none else 'Not recorded' }} · Next due: {{ loan.next_due_date or 'Not set' }} · Updated: {{ loan.updated_on }}</div>{% endif %}
+        <details class="mt-3"><summary class="fw-semibold">Add a dated loan update</summary>
+          <form method="post" action="{{ url_for('add_loan_update', loan_id=loan.id) }}" class="mt-3">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+            <div class="row g-2">
+              <div class="col-sm-6"><label class="form-label">Outstanding balance</label><input class="form-control" name="outstanding_balance" type="number" min="0" step="0.01" required value="{{ loan.outstanding_balance if loan.outstanding_balance is not none else '' }}"></div>
+              <div class="col-sm-6"><label class="form-label">Monthly EMI</label><input class="form-control" name="emi_amount" type="number" min="0" step="0.01" required value="{{ loan.emi_amount if loan.emi_amount is not none else '' }}"></div>
+              <div class="col-sm-6"><label class="form-label">Annual interest rate (%)</label><input class="form-control" name="interest_rate" type="number" min="0" max="100" step="0.01" value="{{ loan.interest_rate if loan.interest_rate is not none else '' }}"></div>
+              <div class="col-sm-6"><label class="form-label">Next EMI due date</label><input class="form-control" name="next_due_date" type="date" value="{{ loan.next_due_date or '' }}"></div>
+              <div class="col-sm-6"><label class="form-label">Status</label><select class="form-select" name="status">{% for status in ['Active','Overdue','Paid','Closed'] %}<option {{ 'selected' if loan.status == status }}>{{ status }}</option>{% endfor %}</select></div>
+              <div class="col-sm-6"><label class="form-label">Update date</label><input class="form-control" name="updated_on" type="date" value="{{ today }}" required></div>
+              <div class="col-12"><label class="form-label">Note</label><input class="form-control" name="note" maxlength="500"></div>
+            </div><button class="btn btn-outline-primary btn-sm mt-3">Save update</button>
+          </form>
+        </details>
+      </article>
+      {% endfor %}
+    {% else %}<div class="empty">No loans recorded yet.</div>{% endif %}
+  </section>
+</div>
+
+<section class="panel mt-4"><h2 class="mt-0">Loan update history</h2>
+  {% if loan_updates %}<div class="table-responsive"><table class="table table-sm mb-0"><thead><tr><th>Update date</th><th>Lender / loan</th><th>Balance</th><th>EMI</th><th>Status</th><th>Next due</th><th>Note</th></tr></thead><tbody>
+  {% for item in loan_updates %}<tr><td>{{ item.updated_on }}</td><td>{{ item.lender }} · {{ item.loan_type }}</td><td>{{ item.currency }} {{ '%.2f'|format(item.outstanding_balance) }}</td><td>{{ item.currency }} {{ '%.2f'|format(item.emi_amount) }}</td><td>{{ item.status }}</td><td>{{ item.next_due_date or '—' }}</td><td>{{ item.note or '—' }}</td></tr>{% endfor %}
+  </tbody></table></div>{% else %}<div class="empty">Loan changes you save will appear here.</div>{% endif %}
+</section>
