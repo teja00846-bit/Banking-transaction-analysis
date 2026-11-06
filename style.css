@@ -1,0 +1,63 @@
+:root{--ink:#1e2940;--muted:#69758c;--paper:#f4f6fa;--blue:#355ac8}body{background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}.brand-banner{background:linear-gradient(115deg,#087f8c 0%,#3158c9 52%,#7543b5 100%);color:#fff;padding:1.45rem 0 1.3rem}.brand-banner-inner{display:flex;flex-direction:column;align-items:flex-start}.brand-title{color:#fff;text-decoration:none;text-transform:uppercase;font-weight:900;font-size:clamp(2rem,5vw,3.25rem);line-height:1;letter-spacing:.045em;text-shadow:0 2px 14px #14255055}.brand-title:hover{color:#fff}.brand-quote{font-size:.98rem;margin:.6rem 0 0;color:#f1f7ff;font-style:italic;letter-spacing:.015em}.navbar{background:#17233c}.navbar-nav{flex-wrap:wrap;justify-content:flex-end}.navbar-nav .nav-link:hover{color:#90e1d0}h1{font-weight:750;letter-spacing:-.035em;font-size:2.1rem}h2{font-weight:700;font-size:1.35rem;margin:1.4rem 0 1rem}h3{font-size:1.05rem;font-weight:700}.eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.12em;color:var(--blue)}.card,.panel,.metric,.empty{background:white;border:1px solid #e5e9f0;border-radius:14px;box-shadow:0 5px 20px #2032570a}.panel{padding:1.25rem;border-top:3px solid #49a999}.metric{height:100%;padding:1rem 1.15rem;display:flex;flex-direction:column;gap:.45rem;border-top:3px solid #526ed0}.metric:nth-child(2){border-top-color:#48a994}.metric:nth-child(3){border-top-color:#c17ac4}.metric small{color:var(--muted)}.metric strong{font-size:1.35rem;letter-spacing:-.02em}.empty{padding:2rem;text-align:center;color:var(--muted)}.currency-section{border-top:1px solid #dce1e9;padding-top:.2rem}.form-label{font-weight:600;font-size:.9rem}.table{vertical-align:middle}.table thead th{color:#65718a;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}.btn-primary{background:linear-gradient(115deg,#3158c9,#7543b5);border-color:transparent}.btn-primary:hover,.btn-primary:focus{background:linear-gradient(115deg,#2448ad,#63329e);border-color:transparent}
+
+/* Keep the main navigation and dashboard summary cards in horizontal rows. */
+.section-nav{flex-direction:row;flex-wrap:nowrap;gap:.9rem;max-width:100%;overflow-x:auto;white-space:nowrap}
+.section-nav .nav-link{flex:0 0 auto}
+.summary-cards-row{display:flex;flex-wrap:nowrap;gap:1rem;margin-left:0;margin-right:0;overflow-x:auto;padding:0 0 .5rem}
+.summary-cards-row>.summary-card{flex:0 0 calc((100% - 3rem)/4);max-width:none;padding:0}
+@media(max-width:767.98px){.summary-cards-row>.summary-card{flex:0 0 78%}}
+.summary-card:nth-child(1) .metric{background:linear-gradient(145deg,#fff,#e2f2ff);border-top:4px solid #3189d1}
+.summary-card:nth-child(2) .metric{background:linear-gradient(145deg,#fff,#e1f7ec);border-top:4px solid #2e9b69}
+.summary-card:nth-child(3) .metric{background:linear-gradient(145deg,#fff,#f0e8ff);border-top:4px solid #8754c6}
+.summary-card:nth-child(4) .metric{background:linear-gradient(145deg,#fff,#fff0df);border-top:4px solid #df8a39}
+.apply-filter-button{min-width:84px;white-space:nowrap}
+
+/* Arcane PDF inspired: dark local-first workspace with neon violet and pink accents. */
+:root{--ink:#f4f0fb;--muted:#aaa4bd;--paper:#080711;--blue:#ff4cb8}
+body{background:radial-gradient(ellipse at 12% 0%,#211044 0,transparent 36%),radial-gradient(ellipse at 90% 12%,#230c30 0,transparent 30%),#080711;color:var(--ink)}
+.brand-banner{background:radial-gradient(circle at 82% 45%,#7d0d6948,transparent 25%),linear-gradient(110deg,#090713,#10091f 60%,#180a25);border-bottom:1px solid #8f2d914d}
+.brand-title{background:linear-gradient(95deg,#fff 5%,#ff4cb8 53%,#a986ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 25px #ef31b533}
+.brand-title:hover{color:transparent}
+.brand-quote{color:#c7badb;text-transform:uppercase;font-size:.78rem;font-weight:650;letter-spacing:.17em}
+.navbar{background:#090811eF;border-bottom:1px solid #322440}
+.section-nav .nav-link{color:#c5bed5;font-size:.76rem;font-weight:750;letter-spacing:.08em;text-transform:uppercase;padding:.65rem .8rem;border-radius:999px}
+.section-nav .nav-link:hover,.section-nav .nav-link:focus{color:#fff;background:#d91c982b;box-shadow:0 0 18px #e52b9c25}
+h1{color:#fff;font-size:clamp(2rem,4vw,3rem);text-transform:uppercase;letter-spacing:-.025em}
+h2{color:#ff67c3}
+h3{color:#f5eaff}
+.eyebrow{color:#ff58bd}
+.text-secondary{color:#aaa4bd!important}
+a{color:#ff73c8}a:hover{color:#ffb4e1}
+.card,.panel,.metric,.empty{background:linear-gradient(145deg,#151321f2,#0f0e18f5);color:var(--ink);border-color:#382d4a;box-shadow:0 10px 32px #0005,0 0 22px #5a248016}
+.panel{border-top:3px solid #b833a4}
+.metric{border-top:3px solid #a745da}
+.metric small{color:#b7adc9}
+.metric strong{color:#fff}
+.summary-card:nth-child(1) .metric{background:linear-gradient(145deg,#1a1930,#11111d);border-top:4px solid #53aaff}
+.summary-card:nth-child(2) .metric{background:linear-gradient(145deg,#14251f,#11131b);border-top:4px solid #48d7a1}
+.summary-card:nth-child(3) .metric{background:linear-gradient(145deg,#21152d,#12101c);border-top:4px solid #c071ff}
+.summary-card:nth-child(4) .metric{background:linear-gradient(145deg,#2a1b21,#14111b);border-top:4px solid #ff9a54}
+.form-control,.form-select{background-color:#0d0c16;color:#f4f0fb;border-color:#3b344d}
+.form-control::placeholder{color:#8d879d}
+.form-control:focus,.form-select:focus{background-color:#11101c;color:#fff;border-color:#e43ba9;box-shadow:0 0 0 .2rem #df35a52e}
+.form-select option{background:#11101c;color:#f4f0fb}
+.form-label,.form-check-label{color:#ddd6eb}
+.form-check-input{background-color:#11101c;border-color:#665678}
+.form-check-input:checked{background-color:#d52e9d;border-color:#d52e9d}
+.table{--bs-table-color:#e7e0f1;--bs-table-bg:transparent;--bs-table-border-color:#332c40;--bs-table-hover-color:#fff;--bs-table-hover-bg:#ce31921c}
+.table thead th{color:#c5a8d8}
+.table-responsive{border-radius:10px}
+.btn-primary{background:linear-gradient(110deg,#d71d92,#833de2);border-color:#d839a5;color:#fff;box-shadow:0 4px 18px #d91b8b38}
+.btn-primary:hover,.btn-primary:focus{background:linear-gradient(110deg,#f12ba8,#9e4df5);border-color:#f44bb3;color:#fff}
+.btn-dark{background:linear-gradient(110deg,#5425a6,#b21d82);border-color:#9b368f}
+.btn-outline-dark{color:#e5d9f0;border-color:#79658f}
+.btn-outline-dark:hover{background:#512681;color:#fff;border-color:#bb49d1}
+.btn-outline-primary{color:#ff75c8;border-color:#d840a8}
+.btn-outline-primary:hover{background:#d5218e;border-color:#d5218e;color:#fff}
+.alert-info{--bs-alert-color:#ddcaf4;--bs-alert-bg:#20152b;--bs-alert-border-color:#633c78}
+.alert-warning{--bs-alert-color:#ffe8bd;--bs-alert-bg:#302316;--bs-alert-border-color:#795122}
+.alert-danger{--bs-alert-color:#ffd1dc;--bs-alert-bg:#32151f;--bs-alert-border-color:#85334e}
+footer{color:#9189a2!important}
+
+/* Give page and section headings the same pink accent used across the interface. */
+h1,h2,h3,h4,h5,h6{color:#ff67c3}

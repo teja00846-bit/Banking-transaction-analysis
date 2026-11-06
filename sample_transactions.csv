@@ -1,0 +1,13 @@
+date,description,amount,type,currency,bank_name,account_label,category
+2026-01-02,Monthly salary,42000.00,credit,INR,SBI,Checking,Income
+2026-01-03,Grocery Market,-1264.50,debit,INR,SBI,Checking,Groceries
+2026-01-04,Electricity bill,-842.00,debit,INR,SBI,Checking,Utilities
+2026-01-06,Coffee House,-85.00,debit,INR,HDFC Bank,Daily,Food
+2026-01-07,Consulting payment,9500.00,credit,INR,HDFC Bank,Daily,Income
+2026-01-09,Transfer to savings,-5000.00,debit,INR,SBI,Checking,Transfer
+2026-01-10,Transfer from checking,5000.00,credit,INR,ICICI Bank,Savings,Transfer
+2026-02-02,Monthly salary,42000.00,credit,INR,SBI,Checking,Income
+2026-02-03,Online electronics,-13500.00,debit,INR,HDFC Bank,Daily,Shopping
+2026-02-05,Annual software subscription,-1290.00,debit,INR,ICICI Bank,Card,Subscriptions
+2026-02-06,Repeated purchase,-720.00,debit,INR,SBI,Checking,Shopping
+2026-02-06,Repeated purchase,-720.00,debit,INR,SBI,Checking,Shopping
